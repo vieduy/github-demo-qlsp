@@ -26,7 +26,7 @@ class List extends Component {
                     {
                       msp.map((sanpham, index) => {
                         return (
-                          <Item editSP={editSP} stt={index} key={index} _id={sanpham._id} TenSp={sanpham.TenSp} MoTa={sanpham.MoTa} Gia={sanpham.Gia} NgaySx={sanpham.NgaySx} HanSd={sanpham.HanSd} delSP={delSP}/>
+                          <Item editSP={editSP} stt={index} key={index} _id={sanpham._id} tensp={sanpham.tensp} mota={sanpham.mota} gia={sanpham.gia} ngaysx={sanpham.ngaysx} hansd={sanpham.hansd} delSP={delSP}/>
                         );
                       })
                     }

@@ -2,7 +2,7 @@ const axios = require('axios');
 
 let items = [];
 const  axiosTest = () => {
-    return axios.get('http://localhost:3000/product')
+    return axios.get('http://ttcong2301.southeastasia.cloudapp.azure.com:3000/product')
     .then(function (response) {
       items = response.data;
       return items;

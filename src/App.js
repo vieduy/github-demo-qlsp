@@ -21,13 +21,18 @@ class App extends Component {
     this.addSP = this.addSP.bind(this);
     this.delSP = this.delSP.bind(this);
     this.editSP = this.editSP.bind(this);
+    this.getSP = this.getSP.bind(this);
   }
   
-  componentDidMount(){
-    axios.get('http://localhost:3000/product')
+  getSP(){
+    axios.get('http://ttcong2301.southeastasia.cloudapp.azure.com:3000/product')
     .then( response => {
       this.setState({mangSanPham: response.data})
     });
+  }
+
+  componentDidMount(){
+    this.getSP();
   }
 
   onShow(){
@@ -38,51 +43,41 @@ class App extends Component {
   } 
   addSP(sanpham){
     if (sanpham._id === ''){ 
-        // this.state.mangSanPham.push({
-        //   id: uuidv4(),
-        //   TenSP: sanpham.TenSP,
-        //   MoTa: sanpham.MoTa,
-        //   Gia: sanpham.Gia,
-        //   NgaySx: sanpham.NgaySx,
-        //   HanSd: sanpham.HanSd,
-        // });
       axios({
         method: 'post',
-        url: 'http://localhost:3000/product',
+        url: 'http://ttcong2301.southeastasia.cloudapp.azure.com:3000/product',
         data: {
-          TenSp: sanpham.TenSp,
-          MoTa: sanpham.MoTa,
-          Gia: sanpham.Gia,
-          NgaySx: sanpham.NgaySx,
-          HanSd: sanpham.HanSd
+          tensp: sanpham.tensp,
+          mota: sanpham.mota,
+          gia: sanpham.gia,
+          ngaysx: sanpham.ngaysx,
+          hansd: sanpham.hansd
+        }
+      })
+      .then( response => {
+        if (response.status === 200){
+          this.getSP();
         }
       });      
     }
     else {
-      // this.setState({
-      //       mangSanPham: this.state.mangSanPham.map( element => {  
-      //           if (element.id === sanpham.id){
-      //              element.TenSP = sanpham.TenSP;
-      //              element.MoTa = sanpham.MoTa;
-      //              element.Gia = sanpham.Gia;
-      //              element.NgaySx = sanpham.NgaySx;
-      //              element.HanSd = sanpham.HanSd;
-      //           }
-      //           return element;
-      //     }),
-      // });
       axios({
         method: 'patch',
-        url: 'http://localhost:3000/product/' + sanpham._id,
+        url: 'http://ttcong2301.southeastasia.cloudapp.azure.com:3000/product/' + sanpham._id,
         data: {
           _id: sanpham._id,
-          TenSp: sanpham.TenSp,
-          MoTa: sanpham.MoTa,
-          Gia: sanpham.Gia,
-          NgaySx: sanpham.NgaySx,
-          HanSd: sanpham.HanSd
+          tensp: sanpham.tensp,
+          mota: sanpham.mota,
+          gia: sanpham.gia,
+          ngaysx: sanpham.ngaysx,
+          hansd: sanpham.hansd
         }
-      });   
+      })
+      .then( response => {
+        if (response.status === 200){
+          this.getSP();
+          } 
+        });    
     }
     this.setState({
       showForm: false,
@@ -92,16 +87,15 @@ class App extends Component {
   delSP(sanpham){
       axios({
         method: 'delete',
-        url: 'http://localhost:3000/product/' + sanpham._id,
+        url: 'http://ttcong2301.southeastasia.cloudapp.azure.com:3000/product/' + sanpham._id,
         data: {
         }
-      });        
-    // remove(this.state.mangSanPham, (item)=>{
-    //   return item.id === sanpham.id;
-    // });
-    // this.setState({
-    //   mangSanPham: this.state.mangSanPham
-    // });
+      })
+      .then(response => {
+        if (response.status === 200){
+          this.getSP();
+        }
+      });     
   }
 
   editSP(sanpham){

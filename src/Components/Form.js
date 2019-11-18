@@ -22,11 +22,11 @@ class Form extends Component {
         if(this.props.itemSelected !== null) {
             this.setState({
                 sp_id: this.props.itemSelected._id,
-                sp_ten: this.props.itemSelected.TenSp,
-                sp_gia: this.props.itemSelected.Gia,
-                sp_mota: this.props.itemSelected.MoTa,
-                sp_nsx: this.props.itemSelected.NgaySx,
-                sp_hsd: this.props.itemSelected.HanSd
+                sp_ten: this.props.itemSelected.tensp,
+                sp_gia: this.props.itemSelected.gia,
+                sp_mota: this.props.itemSelected.mota,
+                sp_nsx: this.props.itemSelected.ngaysx,
+                sp_hsd: this.props.itemSelected.hansd
               });
           }
       }
@@ -34,12 +34,12 @@ class Form extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.itemSelected !== null) {
           this.setState({
-                sp_id: nextProps.itemSelected._id,
-                sp_ten: nextProps.itemSelected.TenSp,
-                sp_gia: nextProps.itemSelected.Gia,
-                sp_mota: nextProps.itemSelected.MoTa,
-                sp_nsx: nextProps.itemSelected.NgaySx,
-                sp_hsd: nextProps.itemSelected.HanSd
+            sp_id: nextProps.itemSelected._id,
+            sp_ten: nextProps.itemSelected.tensp,
+            sp_gia: nextProps.itemSelected.gia,
+            sp_mota: nextProps.itemSelected.mota,
+            sp_nsx: nextProps.itemSelected.ngaysx,
+            sp_hsd: nextProps.itemSelected.hansd
             });
         }
         else {
@@ -68,11 +68,11 @@ class Form extends Component {
          if (this.validator.allValid()) {
             let newSP = {
                  _id: newItem.sp_id,
-                 TenSp: newItem.sp_ten, 
-                 MoTa: newItem.sp_mota, 
-                 Gia: newItem.sp_gia, 
-                 NgaySx: newItem.sp_nsx, 
-                 HanSd:newItem.sp_hsd
+                 tensp: newItem.sp_ten, 
+                 mota: newItem.sp_mota, 
+                 gia: newItem.sp_gia, 
+                 ngaysx: newItem.sp_nsx, 
+                 hansd:newItem.sp_hsd
          };
             this.props.addSP(newSP);
         }
@@ -98,7 +98,7 @@ class Form extends Component {
                         <div className="row">
                             <div className="col-2">
                                 <label htmlFor="ex1">Tên</label>
-                                <input require="true" name="sp_ten" className="form-control" id="ex1" type="text" placeholder="Name" value={sp_ten} onChange={this.handleInputChange}  />
+                                <input name="sp_ten" className="form-control" id="ex1" type="text" placeholder="Name" value={sp_ten} onChange={this.handleInputChange}  />
                                 {this.validator.message('title', sp_ten, 'required')}
                             </div>
                             <div className="col-3">
