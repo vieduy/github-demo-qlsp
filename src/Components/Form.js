@@ -1,58 +1,71 @@
 import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
+import { connect } from 'react-redux';
+import * as actions from './../Actions/index'
 
 class Form extends Component {
     constructor(props){
         super(props);
         this.state = {
-            sp_id: '',
-            sp_ten: '',
-            sp_mota: '',
-            sp_gia: '',
-            sp_nsx: '',
-            sp_hsd: '',
+            _id: '',
+            ten: '',
+            mota: '',
+            gia: '',
+            nsx: '',
+            hsd: '',
             alert: null
         };    
         this.validator = new SimpleReactValidator();
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onShowForm = this.onShowForm.bind(this);
     }
 
     componentDidMount() {
-        if(this.props.itemSelected !== null) {
             this.setState({
-                sp_id: this.props.itemSelected._id,
-                sp_ten: this.props.itemSelected.tensp,
-                sp_gia: this.props.itemSelected.gia,
-                sp_mota: this.props.itemSelected.mota,
-                sp_nsx: this.props.itemSelected.ngaysx,
-                sp_hsd: this.props.itemSelected.hansd
+                _id: this.props.itemSelected._id,
+                ten: this.props.itemSelected.ten,
+                gia: this.props.itemSelected.gia,
+                mota: this.props.itemSelected.mota,
+                nsx: this.props.itemSelected.nsx,
+                hsd: this.props.itemSelected.hsd
               });
-          }
       }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.itemSelected !== null) {
           this.setState({
-            sp_id: nextProps.itemSelected._id,
-            sp_ten: nextProps.itemSelected.tensp,
-            sp_gia: nextProps.itemSelected.gia,
-            sp_mota: nextProps.itemSelected.mota,
-            sp_nsx: nextProps.itemSelected.ngaysx,
-            sp_hsd: nextProps.itemSelected.hansd
+            _id: nextProps.itemSelected._id,
+            ten: nextProps.itemSelected.ten,
+            gia: nextProps.itemSelected.gia,
+            mota: nextProps.itemSelected.mota,
+            nsx: nextProps.itemSelected.nsx,
+            hsd: nextProps.itemSelected.hsd
             });
         }
         else {
             this.setState({
-                sp_id: '',
-                sp_ten: '',
-                sp_mota: '',
-                sp_gia: '',
-                sp_nsx: '',
-                sp_hsd: ''
+                _id: '',
+                ten: '',
+                mota: '',
+                gia: '',
+                nsx: '',
+                hsd: ''
             });
         }
       }
+
+      onShowForm(){
+        this.props.onToggleForm();
+        this.props.onClearItem({
+            _id: '',
+            ten: '',
+            mota: '',
+            gia: '',
+            nsx: '',
+            hsd: ''
+        });
+    }
 
     handleInputChange(event) {
         const target = event.target;
@@ -64,17 +77,17 @@ class Form extends Component {
         });
     }
     handleSubmit(event) {
+        event.preventDefault();
         const newItem = this.state;
          if (this.validator.allValid()) {
-            let newSP = {
-                 _id: newItem.sp_id,
-                 tensp: newItem.sp_ten, 
-                 mota: newItem.sp_mota, 
-                 gia: newItem.sp_gia, 
-                 ngaysx: newItem.sp_nsx, 
-                 hansd:newItem.sp_hsd
-         };
-            this.props.addSP(newSP);
+            if (newItem._id === ''){
+                this.props.onAddProduct(newItem);
+                this.onShowForm();
+            }
+            else {
+                this.props.onEditProduct(newItem);
+                this.onShowForm();
+            }
         }
         else {
             this.validator.showMessages();
@@ -84,8 +97,7 @@ class Form extends Component {
     }
 
     render(){
-        const { sp_ten, sp_mota, sp_gia, sp_nsx, sp_hsd } = this.state;
-        const {onShow} = this.props;
+        const { ten, mota, gia, nsx, hsd } = this.state;
         let showForm = null;
         let valueForm = 'Thêm sản phẩm';
         if (this.props.showForm === true){
@@ -98,24 +110,24 @@ class Form extends Component {
                         <div className="row">
                             <div className="col-2">
                                 <label htmlFor="ex1">Tên</label>
-                                <input name="sp_ten" className="form-control" id="ex1" type="text" placeholder="Name" value={sp_ten} onChange={this.handleInputChange}  />
-                                {this.validator.message('title', sp_ten, 'required')}
+                                <input name="ten" className="form-control" id="ex1" type="text" placeholder="Name" value={ten} onChange={this.handleInputChange}  />
+                                {this.validator.message('title', ten, 'required')}
                             </div>
                             <div className="col-3">
                                 <label htmlFor="ex2">Mô Tả</label>
-                                <input name="sp_mota" value={sp_mota} onChange={this.handleInputChange} className="form-control" id="ex2" type="text" placeholder="Mô tả" require="true" />
+                                <input name="mota" value={mota} onChange={this.handleInputChange} className="form-control" id="ex2" type="text" placeholder="Mô tả" require="true" />
                             </div>
                             <div className="col-1">
                                 <label htmlFor="ex3">Giá</label>
-                                <input name="sp_gia" value={sp_gia} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="Giá" require="true" />
+                                <input name="gia" value={gia} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="Giá" require="true" />
                             </div>
                             <div className="col-2">
                                 <label htmlFor="ex3">NSX</label>
-                                <input name="sp_nsx" value={sp_nsx} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="NSX" require="true" />
+                                <input name="nsx" value={nsx} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="NSX" require="true" />
                             </div>
                             <div className="col-2">
                                 <label htmlFor="ex3">HSD</label>
-                                <input name="sp_hsd" value={sp_hsd} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="HSD" require="true" />
+                                <input name="hsd" value={hsd} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="HSD" require="true" />
                             </div>
                             <div className="col-1">
                                 <label htmlFor="ex4">Xác nhận</label>
@@ -124,7 +136,7 @@ class Form extends Component {
                             </div>
                             <div className="col-1">
                                 <label htmlFor="ex5">Hủy bỏ</label>
-                                <button onClick={onShow} type="button" className="btn btn-dark" id="ex5">Cancel</button>
+                                <button onClick={() => this.onShowForm()} type="button" className="btn btn-dark" id="ex5">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -135,11 +147,36 @@ class Form extends Component {
 
       return (
             <div className="col-xs-2">
-                <button style={{width: '150px'}} onClick={onShow} type="button" className="btn btn-info">{valueForm}</button>
+                <button style={{width: '150px'}} onClick={this.onShowForm} type="button" className="btn btn-info">{valueForm}</button>
                 {showForm}
             </div>
       );
     }
   }
   
-  export default Form;
+  const mapStatetoProps = state => {
+        return {
+            showForm: state.isDisplayForm,
+            itemSelected: state.productSelected
+        }
+    }
+
+  const mapDispatchToProps = dispatch => {
+      return {
+          onAddProduct: product => {
+              dispatch(actions.addProductRequest(product))
+          },
+            onToggleForm: () => {
+            dispatch(actions.toggleForm());
+          },
+            onEditProduct: product => {
+                dispatch(actions.editProductRequest(product));
+          },
+            onClearItem: item => {
+                dispatch(actions.isSelected(item));
+          }
+      }
+  }
+
+
+  export default connect(mapStatetoProps, mapDispatchToProps)(Form);

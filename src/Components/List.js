@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Item from './Item';
+import { connect } from 'react-redux';
+import * as actions from './../Actions/index'
 
 class List extends Component {
+
+  componentDidMount(){ 
+    this.props.onGetProducts();
+  }  
     render(){
-      const {delSP} = this.props;
-      const {editSP} = this.props;
-      const msp = Array.from(this.props.mangSanPham);
+      const { products } = this.props;
       return (
         <div className="List">
             <div className="card">
@@ -24,9 +28,9 @@ class List extends Component {
                 </thead>
                 <tbody>
                     {
-                      msp.map((sanpham, index) => {
+                      products.map((sanpham, index) => {
                         return (
-                          <Item editSP={editSP} stt={index} key={index} _id={sanpham._id} tensp={sanpham.tensp} mota={sanpham.mota} gia={sanpham.gia} ngaysx={sanpham.ngaysx} hansd={sanpham.hansd} delSP={delSP}/>
+                          <Item stt={index} key={index} _id={sanpham._id} tensp={sanpham.tensp} mota={sanpham.mota} gia={sanpham.gia} ngaysx={sanpham.ngaysx} hansd={sanpham.hansd}/>
                         );
                       })
                     }
@@ -37,4 +41,19 @@ class List extends Component {
       );
     }
   }
-  export default List;
+
+  const mapStateToProps = state => {
+    return {
+      products: state.products
+    }
+  }
+
+  const mapDispatchToProps = dispatch => {
+    return {
+      onGetProducts: () => {
+        dispatch(actions.actFetchProductsRequest());
+      }
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(List);
