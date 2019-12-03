@@ -20,6 +20,7 @@ export const addProductRequest = product => {
           })
           .then( response => {
               if (response.status === 200){
+                dispatch(actFetchProductsRequest());
                 dispatch(showModalSuccess('Thêm thành công'));
                 dispatch(addProduct(product));
               }
