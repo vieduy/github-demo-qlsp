@@ -1,6 +1,7 @@
 import * as types from  './../Constants/ActionTypes';
 import callApi from './../api/apiCaller';
 
+
 export const addProduct = product => {
     return {
         type: types.ADD_PRODUCT,
@@ -11,14 +12,15 @@ export const addProduct = product => {
 export const addProductRequest = product => {
     return dispatch => {
         return callApi('', 'POST', {
-            tensp: product.ten,
+            tensp: product.tensp,
             mota: product.mota,
             gia: product.gia,
-            ngaysx: product.nsx,
-            hansd: product.hsd
+            ngaysx: product.ngaysx,
+            hansd: product.hansd
           })
           .then( response => {
               if (response.status === 200){
+                dispatch(showModalSuccess('Thêm thành công'));
                 dispatch(addProduct(product));
               }
             }); 
@@ -35,15 +37,16 @@ export const editProduct = product => {
 export const editProductRequest = product => {
     return (dispatch) => {
         return callApi(`${product._id}`, 'PATCH', {
-            tensp: product.ten,
+            tensp: product.tensp,
             mota: product.mota,
             gia: product.gia,
-            ngaysx: product.nsx,
-            hansd: product.hsd
+            ngaysx: product.ngaysx,
+            hansd: product.hansd
         })
         .then( response => {
             if (response.status === 200)
                 dispatch(editProduct(product));
+                dispatch(showModalSuccess('Sửa thành công'));
         })
         .catch( err => {
             console.log(err);
@@ -64,6 +67,7 @@ export const delProductRequest = product => {
         .then( response => {
             if (response.status === 200)
                 dispatch(delProduct(product));
+                dispatch(showModalSuccess('Xoá thành công'));
         })
         .catch( err => {
             console.log(err);
@@ -104,4 +108,11 @@ export const toggleForm = () => {
 	return {
 		type: types.TOGGLE_FORM
 	}
+}
+
+export const showModalSuccess = message => {
+    return {
+        type: types.SHOW_MODAL_SUCCESS,
+        message
+    }
 }

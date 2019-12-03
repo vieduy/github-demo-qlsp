@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { connect } from 'react-redux';
-import * as actions from './../Actions/index'
+import * as actions from './../Actions/index';
+import ModalSuccess from './ModalSuccess';
 
 class Form extends Component {
     constructor(props){
         super(props);
         this.state = {
             _id: '',
-            ten: '',
+            tensp: '',
             mota: '',
             gia: '',
-            nsx: '',
-            hsd: '',
+            ngaysx: '',
+            hansd: '',
             alert: null
         };    
         this.validator = new SimpleReactValidator();
@@ -24,11 +25,11 @@ class Form extends Component {
     componentDidMount() {
             this.setState({
                 _id: this.props.itemSelected._id,
-                ten: this.props.itemSelected.ten,
+                tensp: this.props.itemSelected.tensp,
                 gia: this.props.itemSelected.gia,
                 mota: this.props.itemSelected.mota,
-                nsx: this.props.itemSelected.nsx,
-                hsd: this.props.itemSelected.hsd
+                ngaysx: this.props.itemSelected.ngaysx,
+                hansd: this.props.itemSelected.hansd
               });
       }
 
@@ -36,21 +37,21 @@ class Form extends Component {
         if(nextProps.itemSelected !== null) {
           this.setState({
             _id: nextProps.itemSelected._id,
-            ten: nextProps.itemSelected.ten,
+            tensp: nextProps.itemSelected.tensp,
             gia: nextProps.itemSelected.gia,
             mota: nextProps.itemSelected.mota,
-            nsx: nextProps.itemSelected.nsx,
-            hsd: nextProps.itemSelected.hsd
+            ngaysx: nextProps.itemSelected.ngaysx,
+            hansd: nextProps.itemSelected.hansd
             });
         }
         else {
             this.setState({
                 _id: '',
-                ten: '',
+                tensp: '',
                 mota: '',
                 gia: '',
-                nsx: '',
-                hsd: ''
+                ngaysx: '',
+                hansd: ''
             });
         }
       }
@@ -59,11 +60,11 @@ class Form extends Component {
         this.props.onToggleForm();
         this.props.onClearItem({
             _id: '',
-            ten: '',
+            tensp: '',
             mota: '',
             gia: '',
-            nsx: '',
-            hsd: ''
+            ngaysx: '',
+            hansd: ''
         });
     }
 
@@ -81,12 +82,12 @@ class Form extends Component {
         const newItem = this.state;
          if (this.validator.allValid()) {
             if (newItem._id === ''){
-                this.props.onAddProduct(newItem);
                 this.onShowForm();
+                this.props.onAddProduct(newItem);
             }
             else {
-                this.props.onEditProduct(newItem);
                 this.onShowForm();
+                this.props.onEditProduct(newItem);
             }
         }
         else {
@@ -97,7 +98,7 @@ class Form extends Component {
     }
 
     render(){
-        const { ten, mota, gia, nsx, hsd } = this.state;
+        const { tensp, mota, gia, ngaysx, hansd } = this.state;
         let showForm = null;
         let valueForm = 'Thêm sản phẩm';
         if (this.props.showForm === true){
@@ -110,8 +111,8 @@ class Form extends Component {
                         <div className="row">
                             <div className="col-2">
                                 <label htmlFor="ex1">Tên</label>
-                                <input name="ten" className="form-control" id="ex1" type="text" placeholder="Name" value={ten} onChange={this.handleInputChange}  />
-                                {this.validator.message('title', ten, 'required')}
+                                <input name="tensp" className="form-control" id="ex1" type="text" placeholder="Name" value={tensp} onChange={this.handleInputChange}  />
+                                {this.validator.message('Ten', tensp, 'required')}
                             </div>
                             <div className="col-3">
                                 <label htmlFor="ex2">Mô Tả</label>
@@ -123,11 +124,11 @@ class Form extends Component {
                             </div>
                             <div className="col-2">
                                 <label htmlFor="ex3">NSX</label>
-                                <input name="nsx" value={nsx} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="NSX" require="true" />
+                                <input name="ngaysx" value={ngaysx} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="NSX" require="true" />
                             </div>
                             <div className="col-2">
                                 <label htmlFor="ex3">HSD</label>
-                                <input name="hsd" value={hsd} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="HSD" require="true" />
+                                <input name="hansd" value={hansd} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="HSD" require="true" />
                             </div>
                             <div className="col-1">
                                 <label htmlFor="ex4">Xác nhận</label>
@@ -149,6 +150,7 @@ class Form extends Component {
             <div className="col-xs-2">
                 <button style={{width: '150px'}} onClick={this.onShowForm} type="button" className="btn btn-info">{valueForm}</button>
                 {showForm}
+                <ModalSuccess/>
             </div>
       );
     }
@@ -164,7 +166,7 @@ class Form extends Component {
   const mapDispatchToProps = dispatch => {
       return {
           onAddProduct: product => {
-              dispatch(actions.addProductRequest(product))
+              dispatch(actions.addProductRequest(product));
           },
             onToggleForm: () => {
             dispatch(actions.toggleForm());

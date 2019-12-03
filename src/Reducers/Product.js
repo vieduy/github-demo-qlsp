@@ -7,11 +7,11 @@ var myReducer = (state = initialState, action) => {
     switch(action.type){
         case types.ADD_PRODUCT:
             state.push({
-              tensp: action.product.ten,
+              tensp: action.product.tensp,
               mota: action.product.mota,
               gia: action.product.gia,
-              ngaysx: action.product.nsx,
-              hansd: action.product.hsd
+              ngaysx: action.product.ngaysx,
+              hansd: action.product.hansd
             });
             return [...state];   
         case types.DEL_PRODUCT:
@@ -25,11 +25,11 @@ var myReducer = (state = initialState, action) => {
         case types.EDIT_PRODUCT: 
           state.map(item => {
             if (item._id === action.product._id){
-              item.tensp = action.product.ten;
+              item.tensp = action.product.tensp;
               item.mota = action.product.mota;
               item.gia = action.product.gia;
-              item.ngaysx = action.product.nsx;
-              item.hansd = action.product.hsd;
+              item.ngaysx = action.product.ngaysx;
+              item.hansd = action.product.hansd;
             }
             return item;
         });
