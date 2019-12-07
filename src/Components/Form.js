@@ -1,71 +1,30 @@
 import React, { Component } from 'react';
-import SimpleReactValidator from 'simple-react-validator';
 import { connect } from 'react-redux';
 import * as actions from './../Actions/index';
 import ModalSuccess from './ModalSuccess';
+import { Modal, Button,  Row, Col, FormGroup, FormCheck, FormLabel } from 'react-bootstrap';
 
 class Form extends Component {
     constructor(props){
         super(props);
         this.state = {
             _id: '',
-            tensp: '',
-            mota: '',
-            gia: '',
-            ngaysx: '',
-            hansd: '',
-            alert: null
+            username: '',
+            password: '',
+            productPermis: false,
+            billPermis: false,
+            postPermis: false,
+            feedbackPermis: false,
+            teamPermis: false,
+            userPermis: false
         };    
-        this.validator = new SimpleReactValidator();
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onShowForm = this.onShowForm.bind(this);
     }
 
-    componentDidMount() {
-            this.setState({
-                _id: this.props.itemSelected._id,
-                tensp: this.props.itemSelected.tensp,
-                gia: this.props.itemSelected.gia,
-                mota: this.props.itemSelected.mota,
-                ngaysx: this.props.itemSelected.ngaysx,
-                hansd: this.props.itemSelected.hansd
-              });
-      }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.itemSelected !== null) {
-          this.setState({
-            _id: nextProps.itemSelected._id,
-            tensp: nextProps.itemSelected.tensp,
-            gia: nextProps.itemSelected.gia,
-            mota: nextProps.itemSelected.mota,
-            ngaysx: nextProps.itemSelected.ngaysx,
-            hansd: nextProps.itemSelected.hansd
-            });
-        }
-        else {
-            this.setState({
-                _id: '',
-                tensp: '',
-                mota: '',
-                gia: '',
-                ngaysx: '',
-                hansd: ''
-            });
-        }
-      }
-
       onShowForm(){
         this.props.onToggleForm();
-        this.props.onClearItem({
-            _id: '',
-            tensp: '',
-            mota: '',
-            gia: '',
-            ngaysx: '',
-            hansd: ''
-        });
     }
 
     handleInputChange(event) {
@@ -79,70 +38,95 @@ class Form extends Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        const newItem = this.state;
-         if (this.validator.allValid()) {
-            if (newItem._id === ''){
+        const newUser = this.state;
+            if (newUser._id === ''){
                 this.onShowForm();
-                this.props.onAddProduct(newItem);
+                this.props.onAddUser(newUser);
             }
             else {
                 this.onShowForm();
-                this.props.onEditProduct(newItem);
+                this.props.onEditProduct(newUser);
             }
-        }
-        else {
-            this.validator.showMessages();
-            this.forceUpdate();
-            event.preventDefault();
-        }
     }
 
     render(){
-        const { tensp, mota, gia, ngaysx, hansd } = this.state;
         let showForm = null;
-        let valueForm = 'Thêm sản phẩm';
+        let valueForm = 'Thêm tài khoản';
         if (this.props.showForm === true){
             valueForm = 'Hủy';
             showForm = (
-            <div>
-                <br/>
-                <div>
+            <Modal show={this.props.showForm} onHide={this.props.onToggleForm}>
+                <Modal.Header closeButton>
+                    <Modal.Title><h4>Add User</h4></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <form onSubmit={this.handleSubmit}>
-                        <div className="row">
-                            <div className="col-2">
-                                <label htmlFor="ex1">Tên</label>
-                                <input name="tensp" className="form-control" id="ex1" type="text" placeholder="Name" value={tensp} onChange={this.handleInputChange}  />
-                                {this.validator.message('Ten', tensp, 'required')}
-                            </div>
-                            <div className="col-3">
-                                <label htmlFor="ex2">Mô Tả</label>
-                                <input name="mota" value={mota} onChange={this.handleInputChange} className="form-control" id="ex2" type="text" placeholder="Mô tả" require="true" />
-                            </div>
-                            <div className="col-1">
-                                <label htmlFor="ex3">Giá</label>
-                                <input name="gia" value={gia} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="Giá" require="true" />
-                            </div>
-                            <div className="col-2">
-                                <label htmlFor="ex3">NSX</label>
-                                <input name="ngaysx" value={ngaysx} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="NSX" require="true" />
-                            </div>
-                            <div className="col-2">
-                                <label htmlFor="ex3">HSD</label>
-                                <input name="hansd" value={hansd} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="HSD" require="true" />
-                            </div>
-                            <div className="col-1">
-                                <label htmlFor="ex4">Xác nhận</label>
-                                <button onClick={() => { if (window.confirm('Bạn có muốn sửa sản phẩm này?')) this.handleSubmit.bind(this) } } type="submit" className="btn btn-primary" id="ex4" value="Submit">Submit</button>
-                                {this.state.alert}
-                            </div>
-                            <div className="col-1">
-                                <label htmlFor="ex5">Hủy bỏ</label>
-                                <button onClick={() => this.onShowForm()} type="button" className="btn btn-dark" id="ex5">Cancel</button>
-                            </div>
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input name="username" className="form-control" type="text" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} required />
                         </div>
-                    </form>
-                </div>
-            </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input name="password" className="form-control" id="ex1" type="text" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} required />
+                        </div>
+                        <fieldset>
+                            <FormGroup as={Row}>
+                                <FormLabel as="legend" column sm={2}>
+                                    Permisson
+                                </FormLabel>
+                                <Col sm={10}>
+                                    <FormCheck
+                                    type="checkbox"
+                                    label="Product"
+                                    name="productPermis"
+                                    checked={this.state.productPermis}
+                                    onChange={this.handleInputChange}
+                                    />
+                                    <FormCheck
+                                    type="checkbox"
+                                    label="Bill"
+                                    name="billPermis"
+                                    checked={this.state.billPermis}
+                                    onChange={this.handleInputChange}
+                                    />
+                                    <FormCheck
+                                    type="checkbox"
+                                    label="Feedback"
+                                    name="feedbackPermis"
+                                    checked={this.state.feedbackPermis}
+                                    onChange={this.handleInputChange}
+                                    />
+                                    <FormCheck
+                                    type="checkbox"
+                                    label="Team"
+                                    name="teamPermis"
+                                    checked={this.state.teamPermis}
+                                    onChange={this.handleInputChange}
+                                    />
+                                    <FormCheck
+                                    type="checkbox"
+                                    label="User"
+                                    name="userPermis"
+                                    checked={this.state.userPermis}
+                                    onChange={this.handleInputChange}
+                                    />
+                                    <FormCheck
+                                    type="checkbox"
+                                    label="Post"
+                                    name="postPermis"
+                                    checked={this.state.postPermis}
+                                    onChange={this.handleInputChange}
+                                    />                                    
+                                </Col>
+                            </FormGroup>
+                        </fieldset>
+                    </form>					                   
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={this.handleSubmit} className="btn btn-primary" value="Submit">Submit</Button>
+                    <Button className='btn-danger' onClick={this.props.onToggleForm}>Close</Button>
+                </Modal.Footer>
+            </Modal>
             );
         }
 
@@ -158,24 +142,17 @@ class Form extends Component {
   
   const mapStatetoProps = state => {
         return {
-            showForm: state.isDisplayForm,
-            itemSelected: state.productSelected
+            showForm: state.isDisplayForm
         }
     }
 
   const mapDispatchToProps = dispatch => {
       return {
-          onAddProduct: product => {
-              dispatch(actions.addProductRequest(product));
+          onAddUser: user => {
+              dispatch(actions.addUserRequest(user));
           },
             onToggleForm: () => {
             dispatch(actions.toggleForm());
-          },
-            onEditProduct: product => {
-                dispatch(actions.editProductRequest(product));
-          },
-            onClearItem: item => {
-                dispatch(actions.isSelected(item));
           }
       }
   }

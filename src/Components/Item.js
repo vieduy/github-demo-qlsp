@@ -4,24 +4,26 @@ import * as actions from './../Actions/index'
 
 class Item extends Component {
 
-  onEditProduct = (product) => {
-    this.props.onSelectProduct(product);
-    this.props.onShowForm();
+  onShowPermis= boo => {
+    if (boo) return 'Có';
+    else return 'Không';
   }
 
     render(){
-      const item = this.props;
+      const user = this.props;
       return (
             <tr>
-                <td className="text-center">{item.stt+1}</td>
-                <td>{item.tensp}</td>
-                <td>{item.mota}</td>
-                <td>{item.gia}</td>
-                <td>{item.ngaysx}</td>
-                <td>{item.hansd}</td>
+                <td className="text-center">{user.stt+1}</td>
+                <td>{user.username}</td>
+                <td>{user.pass}</td>
+                <td>{this.onShowPermis(user.productPermis)}</td>
+                <td>{this.onShowPermis(user.billPermis)}</td>
+                <td>{this.onShowPermis(user.teamPermis)}</td>
+                <td>{this.onShowPermis(user.userPermis)}</td>
+                <td>{this.onShowPermis(user.postPermis)}</td>
+                <td>{this.onShowPermis(user.feedbackPermis)}</td>
                 <td>
-                    <button onClick={() => this.onEditProduct(item)} type="button" className="btn btn-warning">Edit</button>
-                    <button style={{marginLeft: '5px'}} onClick={() => { if (window.confirm('Bạn có muốn xóa sản phẩm này?')) item.onDelProduct(item) } } type="button" className="btn btn-danger">Delete</button>
+                    <button style={{marginLeft: '5px'}} onClick={() => { if (window.confirm('Bạn có muốn xóa sản phẩm này?')) user.onDelUser(user) } } type="button" className="btn btn-danger">Delete</button>
                 </td>
             </tr>
       );
@@ -30,15 +32,9 @@ class Item extends Component {
   
   const mapDispatchToProps = dispatch => {
     return {
-      onDelProduct: product => {
-        dispatch(actions.delProductRequest(product));
+      onDelUser: product => {
+        dispatch(actions.delUserRequest(product));
       },
-      onSelectProduct: product => {
-        dispatch(actions.isSelected(product));
-      },
-      onShowForm: () => {
-        dispatch(actions.showForm());
-      }
     }
   }
 

@@ -7,7 +7,7 @@ class Title extends Component {
       return (
         <div className="Title">
             <div className="row">
-              <h1 style={{textAlign: 'center', padding: '50px'}} className="col-md-6">Quản Lý Sản Phẩm</h1>   
+              <h1 style={{textAlign: 'center', padding: '50px'}} className="col-md-6">Quản Lý Tài Khoản</h1>   
               <Login className="col-md-6" onLogin={onLogin} />         
             </div>
         </div>

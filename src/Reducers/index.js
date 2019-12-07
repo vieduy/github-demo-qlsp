@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import products from './Product';
-import productSelected from './ProductSelected';
+import users from './Users';
 import isDisplayForm from './showForm';
 import modal from './modal';
 
 const myReducer = combineReducers({
-    products,
-    productSelected,
+    users,
     isDisplayForm,
     modal
 });

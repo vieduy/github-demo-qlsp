@@ -2,73 +2,60 @@ import * as types from  './../Constants/ActionTypes';
 import callApi from './../api/apiCaller';
 
 
-export const addProduct = product => {
+export const addUser = user => {
     return {
-        type: types.ADD_PRODUCT,
-        product
+        type: types.ADD_USER,
+        user
     }
 }
 
-export const addProductRequest = product => {
+export const addUserRequest = user => {
     return dispatch => {
         return callApi('', 'POST', {
-            tensp: product.tensp,
-            mota: product.mota,
-            gia: product.gia,
-            ngaysx: product.ngaysx,
-            hansd: product.hansd
+            username: user.username,
+            password: user.password,
+            productPermis: user.productPermis,
+            billPermis: user.billPermis,
+            userPermis: user.userPermis,
+            postPermis: user.postPermis,
+            teamPermis: user.teamPermis,
+            feedbackPermis: user.feedbackPermis
           })
-          .then( response => {
-              if (response.status === 200){
-                dispatch(actFetchProductsRequest());
-                dispatch(showModalSuccess('Thêm thành công'));
-                dispatch(addProduct(product));
-              }
+            .then( response => {
+                if (response.status === 200){
+                    dispatch(actFetchUsersRequest());
+                    dispatch(showModalSuccess('Thêm thành công'));
+                    dispatch(addUser(user));
+                }
+                else {
+                    console.log(response);
+                }
+            })
+            .catch ( error => {
+                console.log(error);
+                dispatch(showModalSuccess('Thêm thất bại'));
             }); 
     }
 }
 
-export const editProduct = product => {
+export const delUser = user => {
     return {
-        type: types.EDIT_PRODUCT,
-        product
+        type: types.DEL_USER,
+        user
     }
 }
 
-export const editProductRequest = product => {
+export const delUserRequest = user => {
     return (dispatch) => {
-        return callApi(`${product._id}`, 'PATCH', {
-            tensp: product.tensp,
-            mota: product.mota,
-            gia: product.gia,
-            ngaysx: product.ngaysx,
-            hansd: product.hansd
-        })
+        return callApi(`${user._id}`, 'DELETE', null)
         .then( response => {
-            if (response.status === 200)
-                dispatch(editProduct(product));
-                dispatch(showModalSuccess('Sửa thành công'));
-        })
-        .catch( err => {
-            console.log(err);
-        })
-    }
-}
-
-export const delProduct = product => {
-    return {
-        type: types.DEL_PRODUCT,
-        product
-    }
-}
-
-export const delProductRequest = product => {
-    return (dispatch) => {
-        return callApi(`${product._id}`, 'DELETE', null)
-        .then( response => {
-            if (response.status === 200)
-                dispatch(delProduct(product));
+            if (response.status === 200){
+                dispatch(delUser(user));
                 dispatch(showModalSuccess('Xoá thành công'));
+            }
+            else {
+                dispatch(showModalSuccess('Xoá thất bại'));
+            }
         })
         .catch( err => {
             console.log(err);
@@ -76,28 +63,22 @@ export const delProductRequest = product => {
     }
 }
 
-export const getProducts = products => {
+export const getUsers = users => {
     return {
-        type: types.GET_PRODUCTS,
-        products
+        type: types.GET_USER,
+        users
     }
 }
 
-export const actFetchProductsRequest = () => {
+export const actFetchUsersRequest = () => {
     return dispatch => {
         return callApi('', 'GET', null)
         .then( response => {
-          dispatch(getProducts(response.data));
+          dispatch(getUsers(response.data));
         });
     }
 }
 
-export const isSelected = product => {
-    return {
-        type: types.IS_SELECTED,
-        product
-    }
-}
 
 export const showForm = () => {
 	return {

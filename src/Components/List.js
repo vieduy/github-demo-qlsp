@@ -6,31 +6,44 @@ import * as actions from './../Actions/index'
 class List extends Component {
 
   componentDidMount(){ 
-    this.props.onGetProducts();
+    this.props.onGetUsers();
   }  
     render(){
-      const { products } = this.props;
+      const { users } = this.props;
       return (
         <div className="List">
             <div className="card">
-                <div className="card-header">Danh sách sản phẩm</div>
+                <div className="card-header">Danh sách tài khoản</div>
                 <table className="table table-hover ">
                 <thead>
                     <tr>
-                    <th style={{width: '10%'}} className="text-center">STT</th>
-                    <th style={{width: '15%'}}>Tên</th>
-                    <th style={{width: '25%'}}>Mô tả</th>
-                    <th style={{width: '10%'}}>Giá</th>
-                    <th style={{width: '13%'}}>Ngày sản xuất</th>
-                    <th style={{width: '12%'}}>Hạn sử dụng</th>
-                    <th style={{width: '15%'}}>Tinh chỉnh</th>
+                    <th style={{width: '5%'}} className="text-center">STT</th>
+                    <th style={{width: '15%'}}>Username</th>
+                    <th style={{width: '20%'}}>Password</th>
+                    <th style={{width: '10%'}}>Sản phẩm</th>
+                    <th style={{width: '5%'}}>Đơn</th>
+                    <th style={{width: '5%'}}>Đội</th>
+                    <th style={{width: '12%'}}>Người dùng</th>
+                    <th style={{width: '8%'}}>Bài viết</th>
+                    <th style={{width: '10%'}}>Feedback</th>
+                    <th style={{width: '10%'}}>Tinh chỉnh</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                      products.map((sanpham, index) => {
+                      users.map((user, index) => {
                         return (
-                          <Item stt={index} key={index} _id={sanpham._id} tensp={sanpham.tensp} mota={sanpham.mota} gia={sanpham.gia} ngaysx={sanpham.ngaysx} hansd={sanpham.hansd}/>
+                          <Item stt={index} 
+                                key={index} 
+                                _id={user._id} 
+                                username={user.username} 
+                                password={user.password}
+                                billPermis={user.billPermis} 
+                                userPermis={user.userPermis} 
+                                postPermis={user.postPermis} 
+                                teamPermis={user.teamPermis}
+                                feedbackPermis={user.feedbackPermis}
+                                productPermis={user.productPermis}/>
                         );
                       })
                     }
@@ -44,14 +57,14 @@ class List extends Component {
 
   const mapStateToProps = state => {
     return {
-      products: state.products
+      users: state.users
     }
   }
 
   const mapDispatchToProps = dispatch => {
     return {
-      onGetProducts: () => {
-        dispatch(actions.actFetchProductsRequest());
+      onGetUsers: () => {
+        dispatch(actions.actFetchUsersRequest());
       }
     }
   }
