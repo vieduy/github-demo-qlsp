@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Sidebar extends Component {
     render(){
       return (
         <div id="sidebar">
-            <h1 className="font-weight-lighter"> Chức năng </h1>
+            <h1 className="font-weight-lighter">Chức năng</h1>
             <br/> <br/> <br/> <br/>
             <nav className="nav flex-column nav-pills">
-                <a className="nav-link" href="#/">Hoạt Động</a>
-                <a className="nav-link active" href='/product'>Quản lý Sản phẩm</a>
-                <a className="nav-link" href='#/'>Đội Hình</a>
-                <a className="nav-link" href="#/">Người Dùng</a>
-                <a className="nav-link" href="#/">Khách Hàng</a>
-                <a className="nav-link" href="#/">Hóa Đơn</a>
-                <br/>
-                <a className="nav-link" href="#/">Hòm Thư Góp Ý</a>
+                <NavLink activeClassName="active" to="/team" className="nav-link">Đội Hình</NavLink>
+                <NavLink activeClassName="active" to="/account" className="nav-link">Tài Khoản</NavLink>
+                <NavLink activeClassName="active" to="/product" className="nav-link">Sản Phẩm</NavLink>
+                <NavLink activeClassName="active" to="/bill" className="nav-link">Hoá Đơn</NavLink>
+                <NavLink activeClassName="active" to="/feedback" className={`nav-link ${this.activeClassName}`}>Hòm Thư</NavLink>
             </nav>
         </div>            
       );

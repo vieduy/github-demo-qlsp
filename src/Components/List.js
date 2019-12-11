@@ -19,12 +19,11 @@ class List extends Component {
                     <tr>
                     <th style={{width: '5%'}} className="text-center">STT</th>
                     <th style={{width: '15%'}}>Username</th>
-                    <th style={{width: '20%'}}>Password</th>
                     <th style={{width: '10%'}}>Sản phẩm</th>
-                    <th style={{width: '5%'}}>Đơn</th>
-                    <th style={{width: '5%'}}>Đội</th>
-                    <th style={{width: '12%'}}>Người dùng</th>
-                    <th style={{width: '8%'}}>Bài viết</th>
+                    <th style={{width: '10%'}}>Đơn</th>
+                    <th style={{width: '10%'}}>Đội</th>
+                    <th style={{width: '13%'}}>Người dùng</th>
+                    <th style={{width: '10%'}}>Bài viết</th>
                     <th style={{width: '10%'}}>Feedback</th>
                     <th style={{width: '10%'}}>Tinh chỉnh</th>
                     </tr>

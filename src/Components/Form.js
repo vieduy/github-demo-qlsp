@@ -47,6 +47,17 @@ class Form extends Component {
                 this.onShowForm();
                 this.props.onEditProduct(newUser);
             }
+        this.setState({
+            _id: '',
+            username: '',
+            password: '',
+            productPermis: false,
+            billPermis: false,
+            postPermis: false,
+            feedbackPermis: false,
+            teamPermis: false,
+            userPermis: false
+        });
     }
 
     render(){

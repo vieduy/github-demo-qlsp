@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import Title from './Components/Title';
-import Form from './Components/Form';
-import List from './Components/List';
+import React, { Component, Fragment } from 'react';
 import Sidebar from './Components/Sidebar';
-
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import Routes from './Routes';
 
 class App extends Component {
   constructor(props){
@@ -11,23 +9,23 @@ class App extends Component {
     this.state = {
     };
   }
-  
 
   render(){
     return (
-      <div className="App">
-        <Sidebar/>  
-        <div id="board">
-            {/* TITLE : START */}
-            <Title onLogin={this.onLogin}/>
-            <hr/>
-            <Form />
-            {/* FORM : END */}
-            {/* LIST : START */}
-            <br/>
-            <List editSP={this.editSP} />
-        </div>
-      </div>
+      <Router>
+        <Fragment>
+          <div className="App">
+            <Sidebar/>    
+            <div id="board">
+              <Switch>
+                {Routes.map((route, index) => {
+                  return <Route path={route.path} component={route.main} exact={route.exact} key={index}/>
+                })}
+              </Switch>
+            </div>
+          </div>
+        </Fragment>
+      </Router>
     );
   }
 }

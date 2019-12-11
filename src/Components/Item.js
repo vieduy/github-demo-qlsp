@@ -15,7 +15,6 @@ class Item extends Component {
             <tr>
                 <td className="text-center">{user.stt+1}</td>
                 <td>{user.username}</td>
-                <td>{user.pass}</td>
                 <td>{this.onShowPermis(user.productPermis)}</td>
                 <td>{this.onShowPermis(user.billPermis)}</td>
                 <td>{this.onShowPermis(user.teamPermis)}</td>
