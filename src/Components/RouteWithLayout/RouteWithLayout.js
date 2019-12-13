@@ -1,30 +1,6 @@
 import React, {Component} from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
-// const fakeAuth = {
-//   isAuthenticated: true,
-//   authenticate(cb) {
-//     this.isAuthenticated = true
-//     setTimeout(cb, 100)
-//   },
-//   signout(cb) {
-//     this.isAuthenticated = false
-//     setTimeout(cb, 100)
-//   }
-// }
-
-// export const PrivateRoute = ({layout: Layout ,component: Component, ...rest }) => (
-//   <Route {...rest} render={(props) => (
-//     fakeAuth.isAuthenticated === true
-//       ? <Layout>
-//           <div id="board">
-//             <Component {...props} />
-//           </div>
-//         </Layout>
-//       : <Redirect to='/login' />
-//   )} />
-// )
-
 const PrivateRoute = ({ component, isAuthenticated }) => {
   return (
     <Route
@@ -56,13 +32,13 @@ class RouteWithLayout extends Component {
           }}
         />
         <PrivateRoute 
-          isAuthenticated={true}  
+          isAuthenticated={false}  
           component={matchProps => (  
-            <Layout>
+            //<Layout>
               <div id="board">
                 <Component {...matchProps} />
               </div>
-            </Layout>
+            //</Layout>
           )}
         />
       </Switch>
