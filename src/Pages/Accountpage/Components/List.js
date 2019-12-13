@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Item from './Item';
 import { connect } from 'react-redux';
-import * as actions from './../Actions/index'
+import * as actions from '../../../Actions/index'
 
 class List extends Component {
 

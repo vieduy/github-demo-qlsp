@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { showModalSuccess } from '../Actions/index';
+import { showModalSuccess } from '../../../Actions/index';
 
 class ModalSuccess extends Component {
     constructor(props){
