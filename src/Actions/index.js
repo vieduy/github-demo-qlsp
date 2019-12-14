@@ -1,6 +1,6 @@
 import * as types from  './../Constants/ActionTypes';
 import callApi from './../api/apiCaller';
-
+import api from "../service/api";
 
 export const addUser = user => {
     return {
@@ -11,7 +11,7 @@ export const addUser = user => {
 
 export const addUserRequest = user => {
     return dispatch => {
-        return callApi('admin/user', 'POST', user)
+        return api.post('admin/user', user)
             .then( response => {
                 if (response.status === 200){
                     dispatch(actFetchUsersRequest());
@@ -38,7 +38,7 @@ export const delUser = user => {
 
 export const delUserRequest = user => {
     return (dispatch) => {
-        return callApi(`admin/user/${user._id}`, 'DELETE', null)
+        return api.delete(`admin/user/${user._id}`)
         .then( response => {
             if (response.status === 200){
                 dispatch(delUser(user));
@@ -184,5 +184,27 @@ export const isSelected = product => {
     return {
         type: types.IS_SELECTED,
         product
+    }
+}
+
+export const loginRequest = user => {
+    return dispatch => {
+        return callApi('user/login', 'POST', {
+            ...user
+        })
+        .then( response => {
+          if (response.status === 200){
+          dispatch(isAuthenticated());
+          }
+        })
+        .catch( err => {
+            console.log(err); 
+        })
+    }
+}
+
+export const isAuthenticated = () => {
+    return {
+        type: types.IS_AUTHENTICATED
     }
 }

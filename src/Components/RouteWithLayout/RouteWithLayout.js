@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
 
 const PrivateRoute = ({ component, isAuthenticated }) => {
   return (
@@ -20,6 +21,27 @@ const PrivateRoute = ({ component, isAuthenticated }) => {
 };
 
 class RouteWithLayout extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isAuthenticated: false
+    };
+  }
+
+  authenticated = () => {
+    this.setState({
+      isAuthenticated : true  
+    });
+  }
+
+  componentDidMount(){
+    this.authenticated();
+    console.log('update');
+    if (this.props.isAuthenticated){
+      return <Redirect to='/product' />
+    }
+  }
+
   render() {
     const { layout: Layout, component: Component } = this.props;
     return (
@@ -32,13 +54,13 @@ class RouteWithLayout extends Component {
           }}
         />
         <PrivateRoute 
-          isAuthenticated={false}  
+          isAuthenticated={this.props.isAuthenticated}  
           component={matchProps => (  
-            //<Layout>
+            <Layout>
               <div id="board">
                 <Component {...matchProps} />
               </div>
-            //</Layout>
+            </Layout>
           )}
         />
       </Switch>
@@ -46,4 +68,10 @@ class RouteWithLayout extends Component {
   }
 }
 
-export default RouteWithLayout;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps, null)(RouteWithLayout);
