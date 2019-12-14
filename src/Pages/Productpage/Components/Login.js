@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-class Title extends Component {
+class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -30,19 +31,10 @@ class Title extends Component {
     render(){
       return (
         <div className="col-md-6 login-form-1">
-            <h3>Login</h3>
+            <h3>Xin chào</h3>
             <form className="row" onSubmit={this.handleSubmit}>
                 <div className="form-group col-md-4">
-                    <input name="user" type="text" className="form-control" placeholder="Your Email *" value={this.state.user} onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input name="password" type="text" className="form-control" placeholder="Your Password *" value={this.state.password} onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="submit" className="btnSubmit" value="Login" onClick={() => this.handleSubmit.bind(this)}/>
-                </div>
-                <div className="form-group col-md-offset-3 col-md-4">
-                    <a href="#/" className="ForgetPwd">Forget Password?</a>
+                    <h3>{this.props.user.username}</h3>
                 </div>
             </form>
         </div>
@@ -50,4 +42,10 @@ class Title extends Component {
     }
   }
   
-  export default Title;
+  const mapStateToProps = state => {
+    return {
+        user: state.loginUser
+    }
+}
+
+export default connect(mapStateToProps, null)(Login);

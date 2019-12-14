@@ -5,6 +5,7 @@ import modal from './modal';
 import products from './Product';
 import productSelected from './ProductSelected';
 import isAuthenticated from './authenticated';
+import loginUser from './login';
 
 const myReducer = combineReducers({
     users,
@@ -12,7 +13,8 @@ const myReducer = combineReducers({
     modal,
     products,
     productSelected,
-    isAuthenticated
+    isAuthenticated,
+    loginUser
 });
 
 export default myReducer;

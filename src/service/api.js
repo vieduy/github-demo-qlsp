@@ -1,8 +1,8 @@
 import axios from "axios";
-// import { get } from "./localStorage";
-// import { history } from "../App";
+import { get, save } from "./localStorage";
+
 const instance = axios.create({
-  baseURL: "127.0.0.1"
+  baseURL: "http://ttcong2301.southeastasia.cloudapp.azure.com:3000"
 });
 // ADD Token into Headers
 instance.interceptors.request.use(
@@ -17,50 +17,47 @@ instance.interceptors.request.use(
   err => err
 );
 
-// const getNewTokenAndReattemptRequest = async (config, refToken) => {
-//   try {
-//     console.log(refToken);
-//     const getNewToken = await axios.post("127.0.0.1/users/token", {
-//       refreshtoken: refToken
-//     });
-//     console.log(getNewToken);
-//     const { token, refreshtoken } = getNewToken.data;
-//     save("accessToken", token);
-//     save("refreshToken", refreshtoken);
-//     config.headers["Authorization"] = `${token}`;
-//     return await axios(config);
-//   } catch (err) {
-//     history.push("/login");
-//     window.location.reload();
-//     return Promise.reject(err);
-//   }
-// };
+const getNewTokenAndReattemptRequest = async (config, refToken) => {
+  try {
+    console.log(refToken);
+    const getNewToken = await axios.post("127.0.0.1/users/token", {
+      refreshtoken: refToken
+    });
+    console.log(getNewToken);
+    const { token, refreshtoken } = getNewToken.data;
+    save("accessToken", token);
+    save("refreshToken", refreshtoken);
+    config.headers["Authorization"] = `${token}`;
+    return await axios(config);
+  } catch (err) {
+    window.location.reload();
+    return Promise.reject(err);
+  }
+};
 
-// instance.interceptors.response.use(
-//   res => res,
-//   error => {
-//     const {
-//       config,
-//       config: { validateStatus },
-//       response: { status }
-//     } = error;
-//     if (validateStatus()) return error;
-//     if (status === 401) {
-//       console.log("hello from refresh");
-//       const refreshToken = get("refreshToken");
-//       if (refreshToken)
-//         return getNewTokenAndReattemptRequest(config, refreshToken);
-//       else {
-//         history.push("/login");
-//         window.location.reload();
-//         return;
-//       }
-//     }
-//     if (status === 404) {
-//       history.push("/not-found");
-//       return;
-//     }
-//     return error;
-//   }
-// );
+instance.interceptors.response.use(
+  res => res,
+  error => {
+    const {
+      config,
+      config: { validateStatus },
+      response: { status }
+    } = error;
+    if (validateStatus()) return error;
+    if (status === 401) {
+      console.log("hello from refresh");
+      const refreshToken = get("refreshToken");
+      if (refreshToken)
+        return getNewTokenAndReattemptRequest(config, refreshToken);
+      else {
+        window.location.reload();
+        return;
+      }
+    }
+    if (status === 404) {
+      return;
+    }
+    return error;
+  }
+);
 export default instance;

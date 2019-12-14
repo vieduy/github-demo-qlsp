@@ -63,7 +63,7 @@ export const getUsers = users => {
 
 export const actFetchUsersRequest = () => {
     return dispatch => {
-        return callApi('admin/user', 'GET', null)
+        return api.get('admin/user')
         .then( response => {
           dispatch(getUsers(response.data));
         });
@@ -99,7 +99,7 @@ export const addProduct = product => {
 
 export const addProductRequest = product => {
     return dispatch => {
-        return callApi('product', 'POST', {
+        return api.post('product', {
             tensp: product.tensp,
             mota: product.mota,
             gia: product.gia,
@@ -125,7 +125,7 @@ export const editProduct = product => {
 
 export const editProductRequest = product => {
     return (dispatch) => {
-        return callApi(`product/${product._id}`, 'PATCH', {
+        return api.patch(`product/${product._id}`, {
             tensp: product.tensp,
             mota: product.mota,
             gia: product.gia,
@@ -152,7 +152,7 @@ export const delProduct = product => {
 
 export const delProductRequest = product => {
     return (dispatch) => {
-        return callApi(`product/${product._id}`, 'DELETE', null)
+        return api.delete(`product/${product._id}`)
         .then( response => {
             if (response.status === 200)
                 dispatch(delProduct(product));
@@ -173,7 +173,7 @@ export const getProducts = products => {
 
 export const actFetchProductsRequest = () => {
     return dispatch => {
-        return callApi('product', 'GET', null)
+        return api.get('product')
         .then( response => {
           dispatch(getProducts(response.data));
         });
@@ -194,7 +194,10 @@ export const loginRequest = user => {
         })
         .then( response => {
           if (response.status === 200){
-          dispatch(isAuthenticated());
+            dispatch(isAuthenticated());
+            localStorage.setItem("accessToken", response.data.token)
+            dispatch(loginUser(user));
+            console.log(user);
           }
         })
         .catch( err => {
@@ -206,5 +209,12 @@ export const loginRequest = user => {
 export const isAuthenticated = () => {
     return {
         type: types.IS_AUTHENTICATED
+    }
+}
+
+export const loginUser = user => {
+    return {
+        type: types.LOGIN_USER,
+        user
     }
 }

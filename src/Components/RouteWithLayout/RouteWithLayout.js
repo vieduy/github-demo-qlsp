@@ -36,7 +36,6 @@ class RouteWithLayout extends Component {
 
   componentDidMount(){
     this.authenticated();
-    console.log('update');
     if (this.props.isAuthenticated){
       return <Redirect to='/product' />
     }
@@ -62,7 +61,7 @@ class RouteWithLayout extends Component {
               </div>
             </Layout>
           )}
-        />
+        />  
       </Switch>
     );
   }

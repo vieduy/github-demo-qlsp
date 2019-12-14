@@ -10,3 +10,4 @@ export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 export const IS_SELECTED = 'IS_SELECTED';
+export const LOGIN_USER = 'LOGIN_USER';
