@@ -78,7 +78,7 @@ class Form extends Component {
                         </div>
                         <div className="form-group">
                             <label>Password</label>
-                            <input name="password" className="form-control" id="ex1" type="text" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} required />
+                            <input name="password" className="form-control" id="ex1" type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} required />
                         </div>
                         <fieldset>
                             <FormGroup as={Row}>

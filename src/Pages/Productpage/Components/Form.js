@@ -117,18 +117,22 @@ class Form extends Component {
                             <div className="col-3">
                                 <label htmlFor="ex2">Mô Tả</label>
                                 <input name="mota" value={mota} onChange={this.handleInputChange} className="form-control" id="ex2" type="text" placeholder="Mô tả" require="true" />
+                                {this.validator.message('Mota', mota, 'required')}
                             </div>
                             <div className="col-1">
                                 <label htmlFor="ex3">Giá</label>
                                 <input name="gia" value={gia} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="Giá" require="true" />
+                                {this.validator.message('Gia', gia, 'required')}
                             </div>
                             <div className="col-2">
                                 <label htmlFor="ex3">NSX</label>
-                                <input name="ngaysx" value={ngaysx} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="NSX" require="true" />
+                                <input name="ngaysx" value={ngaysx} onChange={this.handleInputChange} className="form-control" id="ex3" type="date" placeholder="NSX" require="true" />
+                                {this.validator.message('Ngaysx', ngaysx, 'required')}
                             </div>
                             <div className="col-2">
                                 <label htmlFor="ex3">HSD</label>
-                                <input name="hansd" value={hansd} onChange={this.handleInputChange} className="form-control" id="ex3" type="text" placeholder="HSD" require="true" />
+                                <input name="hansd" value={hansd} onChange={this.handleInputChange} className="form-control" id="ex3" type="date" placeholder="HSD" require="true" />
+                                {this.validator.message('Hansd', hansd, 'required')}
                             </div>
                             <div className="col-1">
                                 <label htmlFor="ex4">Xác nhận</label>
