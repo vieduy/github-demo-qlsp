@@ -11,6 +11,11 @@ class Login extends Component {
     };
   }
 
+  login = () => {
+      this.setState(() => ({
+        redirectToReferrer: true
+      }))
+  }
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -22,15 +27,17 @@ class Login extends Component {
     });
 }
   handleSubmit = (event) => {
-      const { history } = this.props;
       event.preventDefault();
       const user = this.state;
       this.props.onLogin(user);
-      history.push('/product');
   }
   
   render() {
     const { username , password } = this.state;
+    if (this.props.isAuthenticated){
+      const { history } = this.props;
+      history.push('/product');
+    }
     return (
       <div className="limiter">
       <div className="container-login100" style={{backgroundImage: 'url("images/bg-01.jpg")'}}>

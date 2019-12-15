@@ -36,9 +36,6 @@ class RouteWithLayout extends Component {
 
   componentDidMount(){
     this.authenticated();
-    if (this.props.isAuthenticated){
-      return <Redirect to='/product' />
-    }
   }
 
   render() {
