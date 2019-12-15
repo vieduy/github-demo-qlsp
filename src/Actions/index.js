@@ -1,5 +1,4 @@
 import * as types from  './../Constants/ActionTypes';
-import callApi from './../api/apiCaller';
 import api from "../service/api";
 
 export const addUser = user => {
@@ -99,13 +98,7 @@ export const addProduct = product => {
 
 export const addProductRequest = product => {
     return dispatch => {
-        return api.post('product', {
-            tensp: product.tensp,
-            mota: product.mota,
-            gia: product.gia,
-            ngaysx: product.ngaysx,
-            hansd: product.hansd
-          })
+        return api.post('product', product)
           .then( response => {
               if (response.status === 200){
                 dispatch(actFetchProductsRequest());
@@ -125,17 +118,12 @@ export const editProduct = product => {
 
 export const editProductRequest = product => {
     return (dispatch) => {
-        return api.patch(`product/${product._id}`, {
-            tensp: product.tensp,
-            mota: product.mota,
-            gia: product.gia,
-            ngaysx: product.ngaysx,
-            hansd: product.hansd
-        })
+        return api.patch(`product/${product._id}`, product)
         .then( response => {
-            if (response.status === 200)
+            if (response.status === 200){
                 dispatch(editProduct(product));
                 dispatch(showModalSuccess('Sửa thành công'));
+            }
         })
         .catch( err => {
             console.log(err);
@@ -154,9 +142,10 @@ export const delProductRequest = product => {
     return (dispatch) => {
         return api.delete(`product/${product._id}`)
         .then( response => {
-            if (response.status === 200)
+            if (response.status === 200){
                 dispatch(delProduct(product));
                 dispatch(showModalSuccess('Xoá thành công'));
+            }
         })
         .catch( err => {
             console.log(err);
@@ -189,15 +178,13 @@ export const isSelected = product => {
 
 export const loginRequest = user => {
     return dispatch => {
-        return callApi('user/login', 'POST', {
-            ...user
-        })
+        return api.post('user/login', user)
         .then( response => {
           if (response.status === 200){
             dispatch(isAuthenticated());
             localStorage.setItem("accessToken", response.data.token)
             dispatch(loginUser(user));
-            console.log(user);
+            console.log(response);
           }
         })
         .catch( err => {
@@ -216,5 +203,11 @@ export const loginUser = user => {
     return {
         type: types.LOGIN_USER,
         user
+    }
+}
+
+export const isntAuthenticated = () => {
+    return {
+        type: types.LOGOUT_USER
     }
 }

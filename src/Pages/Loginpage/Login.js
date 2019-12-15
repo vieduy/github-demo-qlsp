@@ -74,7 +74,7 @@ class Login extends Component {
             </div>
             <div className="w-full text-center p-t-55">
               <span className="txt2">
-                From WDS
+                From WEBDEV STUDIO
               </span>
             </div>
           </form>
